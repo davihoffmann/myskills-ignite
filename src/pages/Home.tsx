@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
 import { 
   View, 
   Text, 
@@ -12,13 +12,22 @@ import {
 import Button from '../components/Button';
 import SkillCard from '../components/SkillCard';
 
-export default function App() {
+interface SkillData {
+  id: string;
+  name: string;
+}
+
+export default function App(): ReactElement {
   const [newSkill, setNewSkill] = useState('');
-  const [mySkills, setMySkills] = useState([]);
+  const [mySkills, setMySkills] = useState<SkillData[]>([]);
   const [gretting, setGretting] = useState('');
 
   function handleAddNewSkill() {
-    setMySkills(oldValue => [...oldValue, newSkill]);
+    const data = {
+      id: String(new Date().getTime()),
+      name: newSkill
+    }
+    setMySkills(oldValue => [...oldValue, data]);
   }
 
   useEffect(() => {
@@ -53,9 +62,9 @@ export default function App() {
 
       <FlatList 
         data={mySkills}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.id}
         renderItem={({item}) => (
-          <SkillCard item={item} />
+          <SkillCard item={item.name} />
         )}
         showsVerticalScrollIndicator={false}
       />
