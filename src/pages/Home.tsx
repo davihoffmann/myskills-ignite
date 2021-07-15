@@ -30,6 +30,10 @@ export default function App(): ReactElement {
     setMySkills(oldValue => [...oldValue, data]);
   }
 
+  function handleRemoveSkill(id: string) {
+    setMySkills(oldState => oldState.filter(skill => skill.id !== id));
+  }
+
   useEffect(() => {
     const currentHour = new Date().getHours();
 
@@ -55,7 +59,7 @@ export default function App(): ReactElement {
           onChangeText={setNewSkill}
         />
 
-        <Button onPress={handleAddNewSkill} />
+        <Button onPress={handleAddNewSkill} title="Add" />
       </View>
 
       <Text style={[styles.title, { marginVertical: 40 }]}>My Skills</Text>
@@ -64,7 +68,7 @@ export default function App(): ReactElement {
         data={mySkills}
         keyExtractor={(item) => item.id}
         renderItem={({item}) => (
-          <SkillCard item={item.name} />
+          <SkillCard item={item.name} onPress={() => handleRemoveSkill(item.id)} />
         )}
         showsVerticalScrollIndicator={false}
       />
