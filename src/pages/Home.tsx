@@ -48,30 +48,37 @@ export default function App(): ReactElement {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome, Davi</Text>
+      <Text style={styles.title} testID="welcome">Welcome, Davi</Text>
       <Text style={styles.gretting}>{gretting}</Text>
 
       <View style={styles.areaInput}>
         <TextInput 
+          testID="input-new"
           style={styles.input} 
           placeholder="New Skill" 
           placeholderTextColor="#555"
           onChangeText={setNewSkill}
         />
 
-        <Button onPress={handleAddNewSkill} title="Add" />
+        <Button onPress={handleAddNewSkill} testID="button-add" title="Add" />
       </View>
 
       <Text style={[styles.title, { marginVertical: 40 }]}>My Skills</Text>
 
-      <FlatList 
-        data={mySkills}
-        keyExtractor={(item) => item.id}
-        renderItem={({item}) => (
-          <SkillCard item={item.name} onPress={() => handleRemoveSkill(item.id)} />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+      {
+        mySkills && (
+          <FlatList 
+            testID="flatlist-skills"
+            data={mySkills}
+            keyboardShouldPersistTaps="never"
+            keyExtractor={(item) => item.id}
+            renderItem={({item}) => (
+              <SkillCard item={item.name} onPress={() => handleRemoveSkill(item.id)} />
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        )
+      }
       
     </View>
   )
